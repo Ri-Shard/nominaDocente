@@ -24,6 +24,10 @@ class MainLayout extends StatelessWidget {
               const SizedBox(
                 width: 15,
               ),
+              buttn("CALCULAR TODOS", Colors.green, '/all', context),
+              const SizedBox(
+                width: 15,
+              ),
             ],
           )
         ],

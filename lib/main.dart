@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nomina_docente/controller/all_docentes_controller.dart';
 import 'package:nomina_docente/controller/main_controller.dart';
 import 'package:nomina_docente/layouts/main_layout_page.dart';
+import 'package:nomina_docente/pages/calculate_all_page.dart';
 import 'package:nomina_docente/pages/home_page.dart';
 import 'package:nomina_docente/pages/register_page.dart';
 import 'package:nomina_docente/services/navigator_services.dart';
@@ -20,17 +22,18 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           Get.put(MainController());
+          Get.put(AllDocentesController());
           return GetMaterialApp(
               title: 'Nomina Docentes',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                primarySwatch: Colors.green,
-                
+                primarySwatch: Colors.green,                
               ),
               initialRoute: '/',
               routes: {
                 '/': (context) => const MyHomePage(),
                 '/register': (context) =>  const RegisterPage(),
+                '/all': (context) =>   const CalculateAllPage(),
               },
               navigatorKey: navigationService.navigatorKey,
               builder: (_, child){
