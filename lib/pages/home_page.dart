@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nomina_docente/controller/main_controller.dart';
@@ -58,12 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ChartPage()
-              ),
+                  margin: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ChartPage()),
             )
           ],
         ),
@@ -86,6 +84,110 @@ Widget _body(BuildContext context, MainController controller) {
                 itemBuilder: (BuildContext context, int i) {
                   return ListTile(
                     onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(20),
+                              child: Card(
+                                  child: Container(
+                                      width: Get.width * 0.5,
+                                      height: Get.height *0.6,
+                                      padding: const EdgeInsets.all(20),
+                                      child: ListView(children: <Widget>[
+                                        Center(
+                                            child: Column(
+                                              children: const[
+                                                Text(
+                                          'Salario Calculado Con base en: ',
+                                          style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                        Text("S.M.M.L.V = 1'000.000",
+                                          style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                                  SizedBox(height: 30,)                                               
+                                              ],
+                                            )),
+                                        DataTable(
+                                          columns: const [
+                                            DataColumn(
+                                                label: Text('Variables',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Valores',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Multiplicador',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Total',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                          ],
+                                          rows:  [
+                                            DataRow(cells: [
+                                              DataCell(Text('Tipo Docente',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(snapshot.data![i].type)),
+                                              DataCell(Text(controller.valuemultiplicator(snapshot.data![i].type)+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(controller.calculoparcialtype(snapshot.data![i].type)))),
+                                            ]),
+                                            DataRow(cells: [
+                                              DataCell(Text('PostGrado mas Reciente',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(controller.moreRecent(snapshot.data![i].postgrado))),
+                                              DataCell(Text(controller.valuemultiplicator(controller.moreRecent(snapshot.data![i].postgrado))+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(controller.calculoparcialPost(controller.moreRecent(snapshot.data![i].postgrado))))),
+                                            ]),
+                                            DataRow(cells: [
+                                              DataCell(Text('Semillero Mas Nivel',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(controller.moreLevel(snapshot.data![i].postgrado))),
+                                              DataCell(Text(controller.valuemultiplicator(controller.moreLevel(snapshot.data![i].postgrado))+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(controller.calculoparcialPost(controller.moreLevel(snapshot.data![i].postgrado))))),
+                                            ]),
+                                            DataRow(cells:  [
+                                              DataCell(Text('TOTAL: ',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(" ")),
+                                              DataCell(Text(" ")),
+                                              DataCell(Text(moneyFormat(controller.calcularSNomina(snapshot.data![i].postgrado, snapshot.data![i].type)), style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            ]),
+                                          ],
+                                        ),
+                                      ]))),
+                            );
+                          });
                       controller.calcularSNomina(
                           snapshot.data![i].postgrado, snapshot.data![i].type);
                     },

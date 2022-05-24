@@ -10,7 +10,7 @@ import 'package:nomina_docente/models/docente.dart';
 
 class MainController extends GetxController {
 //  final _storage = html.window.localStorage;
-List<Docente> postgradoslistAux=[];
+  List<Docente> postgradoslistAux = [];
   @override
   void onInit() {
     super.onInit();
@@ -51,9 +51,221 @@ List<Docente> postgradoslistAux=[];
             salary: item["salary"],
             postgrado: complementosAux));
       }
-      postgradoslistAux=docenteAux;
+      postgradoslistAux = docenteAux;
       return docenteAux;
     });
+  }
+
+  String moreRecent(List<Complemento> postgrado) {
+    Complemento mostRecentComp =
+        Complemento(date: "0000", nombre: "nombre", level: "ESPECIALIZACION");
+    double mostRecent = 9999;
+
+    postgrado.forEach((element) {
+      if (element.level == "POSTDOCTORADO") {
+        mostRecentComp = element;
+      } else if (element.level == "DOCTORADO" &&
+          mostRecentComp.level != "POSTDOCTORADO") {
+        mostRecentComp = element;
+      } else if (element.level == "MAESTRIA" &&
+          mostRecentComp.level != "DOCTORADO" &&
+          mostRecentComp.level != "POSTDOCTORADO") {
+        mostRecentComp = element;
+      } else if (element.level == "ESPECIALIZACION" &&
+          mostRecentComp.level != "DOCTORADO" &&
+          mostRecentComp.level != "POSTDOCTORADO" &&
+          mostRecentComp.level != "MAESTRIA") {
+        mostRecentComp = element;
+      }
+      if (element.date != "0000") {
+        DateTime date = DateTime.parse(element.date);
+        String formatedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        DateTime nowformated = DateTime.parse(formatedDate);
+        Duration dias = nowformated.difference(date);
+        if (double.parse(dias.inDays.toString()) < mostRecent) {
+          mostRecent = double.parse(dias.inDays.toString());
+        }
+      }
+    });
+    return mostRecentComp.level;
+  }
+
+  String moreLevel(List<Complemento> postgrado) {
+    double mostRecent = 9999;
+    Complemento moreLevelSemill =
+        Complemento(date: "0000", nombre: "nombre", level: "SEMILLERO");
+    postgrado.forEach((element) {
+      if (element.level == "A1") {
+        moreLevelSemill = element;
+      } else if (element.level == "A" && moreLevelSemill.level != "A1") {
+        moreLevelSemill = element;
+      } else if (element.level == "B" &&
+          moreLevelSemill.level != "A" &&
+          moreLevelSemill.level != "A1") {
+        moreLevelSemill = element;
+      } else if (element.level == "C" &&
+          moreLevelSemill.level != "B" &&
+          moreLevelSemill.level != "A" &&
+          moreLevelSemill.level != "A1") {
+        moreLevelSemill = element;
+      } else if (element.level == "RECONOCIDO POR COLCIENCIAS" &&
+          moreLevelSemill.level != "C" &&
+          moreLevelSemill.level != "B" &&
+          moreLevelSemill.level != "A" &&
+          moreLevelSemill.level != "A1") {
+        moreLevelSemill = element;
+      } else if (element.level == "SEMILLERO" &&
+          moreLevelSemill.level != "RECONOCIDO POR COLCIENCIAS" &&
+          moreLevelSemill.level != "C" &&
+          moreLevelSemill.level != "B" &&
+          moreLevelSemill.level != "A" &&
+          moreLevelSemill.level != "A1") {
+        moreLevelSemill = element;
+      }
+
+      if (element.date != "0000") {
+        DateTime date = DateTime.parse(element.date);
+        String formatedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        DateTime nowformated = DateTime.parse(formatedDate);
+        Duration dias = nowformated.difference(date);
+        if (double.parse(dias.inDays.toString()) < mostRecent) {
+          mostRecent = double.parse(dias.inDays.toString());
+        }
+      }
+    });
+    return moreLevelSemill.level;
+  }
+
+  String valuemultiplicator(String type) {
+    switch (type) {
+      case "Auxiliar Tiempo Completo":
+        return "2.645";
+      case "Auxiliar Medio Tiempo":
+        return "1.509";
+      case "Asistente Tiempo Completo":
+        return "3.125";
+      case "Asistente Medio Tiempo":
+        return "1.749";
+      case "Asociado Tiempo Completo":
+        return "3.606";
+      case "Asociado Medio Tiempo":
+        return "1.990";
+      case "Titular Tiempo Completo":
+        return "3.918";
+      case "Titular Medio Tiempo":
+        return "2.146";
+      //POSTGRADOS
+      case "ESPECIALIZACION":
+        return "0.10";
+      case "MAESTRIA":
+        return "0.45";
+      case "DOCTORADO":
+        return "0.90";
+      case "POSTDOCTORADO":
+        return "0.0";
+      //SEMILLEROS
+      case "A1":
+        return "0.56";
+      case "A":
+        return "0.47";
+      case "B":
+        return "0.42";
+      case "C":
+        return "0.38";
+      case "RECONOCIDO POR COLCIENCIAS":
+        return "0.33";
+      case "SEMILLERO":
+        return "0.19";
+      default:
+        return " ";
+    }
+  }
+
+  String calculoparcialtype(String type) {
+    double smmlv = 1000000.0;
+    if (type == "Auxiliar Tiempo Completo") {
+      var aux = smmlv * 2.645;
+      return aux.toString();
+    }
+
+    if (type == "Auxiliar Medio Tiempo") {
+      var aux = smmlv * 1.509;
+      return aux.toString();
+    }
+
+    if (type == "Asistente Tiempo Completo") {
+      var aux = smmlv * 3.125;
+      return aux.toString();
+    }
+
+    if (type == "Asistente Medio Tiempo") {
+      var aux = smmlv * 1.749;
+      return aux.toString();
+    }
+
+    if (type == "Asociado Tiempo Completo") {
+      var aux = smmlv * 3.606;
+      return aux.toString();
+    }
+
+    if (type == "Asociado Medio Tiempo") {
+      var aux = smmlv * 1.990;
+      return aux.toString();
+    }
+    if (type == "Titular Tiempo Completo") {
+      var aux = smmlv * 3.918;
+      return aux.toString();
+    }
+    if (type == "Titular Medio Tiempo") {
+      var aux = smmlv * 2.146;
+      return aux.toString();
+    }
+    return "";
+  }
+
+  String calculoparcialPost(String level) {
+    double smmlv = 1000000.0;
+
+    if (level == "A1") {
+      var aux = smmlv * 0.56;
+      return aux.toString();
+    }
+    if (level == "A") {
+      var aux = smmlv * 0.47;
+      return aux.toString();
+    }
+    if (level == "B") {
+      var aux = smmlv * 0.42;
+      return aux.toString();
+    }
+    if (level == "C") {
+      var aux = smmlv * 0.38;
+      return aux.toString();
+    }
+    if (level == "RECONOCIDO POR COLCIENCIAS") {
+      var aux = smmlv * 0.33;
+      return aux.toString();
+    }
+    if (level == "SEMILLERO") {
+      var aux = smmlv * 0.19;
+      return aux.toString();
+    }
+
+    if (level == "DOCTORADO") {
+      var aux = smmlv * 0.90;
+      return aux.toString();
+    } else if (level == "MAESTRIA") {
+      var aux = smmlv * 0.45;
+      return aux.toString();
+    } else if (level == "ESPECIALIZACION") {
+      var aux = smmlv * 0.10;
+      return aux.toString();
+    }
+    if (level == "POSTDOCTORADO") {
+      var aux = smmlv * 0.0;
+      return aux.toString();
+    }
+    return "";
   }
 
   String calcularSNomina(List<Complemento> postgrado, String type) {
@@ -85,8 +297,7 @@ List<Docente> postgradoslistAux=[];
       }
       if (element.level == "A1") {
         moreLevelSemill = element;
-      } else if (element.level == "A" &&
-          moreLevelSemill.level != "A1") {
+      } else if (element.level == "A" && moreLevelSemill.level != "A1") {
         moreLevelSemill = element;
       } else if (element.level == "B" &&
           moreLevelSemill.level != "A" &&
@@ -97,13 +308,13 @@ List<Docente> postgradoslistAux=[];
           moreLevelSemill.level != "A" &&
           moreLevelSemill.level != "A1") {
         moreLevelSemill = element;
-      }else if (element.level == "RECONOCIDO POR COLCIENCIAS" &&
+      } else if (element.level == "RECONOCIDO POR COLCIENCIAS" &&
           moreLevelSemill.level != "C" &&
           moreLevelSemill.level != "B" &&
           moreLevelSemill.level != "A" &&
           moreLevelSemill.level != "A1") {
         moreLevelSemill = element;
-      }else if (element.level == "SEMILLERO" &&
+      } else if (element.level == "SEMILLERO" &&
           moreLevelSemill.level != "RECONOCIDO POR COLCIENCIAS" &&
           moreLevelSemill.level != "C" &&
           moreLevelSemill.level != "B" &&
@@ -111,9 +322,6 @@ List<Docente> postgradoslistAux=[];
           moreLevelSemill.level != "A1") {
         moreLevelSemill = element;
       }
-
-
-
 
       if (element.date != "0000") {
         DateTime date = DateTime.parse(element.date);
@@ -124,26 +332,25 @@ List<Docente> postgradoslistAux=[];
           mostRecent = double.parse(dias.inDays.toString());
         }
       }
-
     });
-      if (moreLevelSemill.level == "A1") {
-        semill = semill + smmlv * 0.56;
-      }
-      if (moreLevelSemill.level == "A") {
-        semill = semill + smmlv * 0.47;
-      }
-      if (moreLevelSemill.level == "B") {
-        semill = semill + smmlv * 0.42;
-      }
-      if (moreLevelSemill.level == "C") {
-        semill = semill + smmlv * 0.38;
-      }
-      if (moreLevelSemill.level == "RECONOCIDO POR COLCIENCIAS") {
-        semill = semill + smmlv * 0.33;
-      }
-      if (moreLevelSemill.level == "SEMILLERO") {
-        semill = semill + smmlv * 0.19;
-      }
+    if (moreLevelSemill.level == "A1") {
+      semill = semill + smmlv * 0.56;
+    }
+    if (moreLevelSemill.level == "A") {
+      semill = semill + smmlv * 0.47;
+    }
+    if (moreLevelSemill.level == "B") {
+      semill = semill + smmlv * 0.42;
+    }
+    if (moreLevelSemill.level == "C") {
+      semill = semill + smmlv * 0.38;
+    }
+    if (moreLevelSemill.level == "RECONOCIDO POR COLCIENCIAS") {
+      semill = semill + smmlv * 0.33;
+    }
+    if (moreLevelSemill.level == "SEMILLERO") {
+      semill = semill + smmlv * 0.19;
+    }
 
     if (mostRecentComp.level == "DOCTORADO") {
       post = post + smmlv * 0.90;
@@ -190,7 +397,7 @@ List<Docente> postgradoslistAux=[];
     return fin.toString();
   }
 
-  Future<List<double>> postgrados() async{
+  Future<List<double>> postgrados() async {
     List<double> postgra = [];
     await Future.delayed(const Duration(seconds: 2));
 
@@ -198,26 +405,27 @@ List<Docente> postgradoslistAux=[];
     double maes = 0;
     double doc = 0;
     double posdoc = 0;
-      postgradoslistAux.forEach((docente) {
-        docente.postgrado.forEach((postgrado) {
-          if (postgrado.level == "ESPECIALIZACION") {
-            espe = espe + 1;
-          }
-          if (postgrado.level == "MAESTRIA") {
-            maes = maes + 1;
-          }
-          if (postgrado.level == "DOCTORADO") {
-            doc = doc + 1;
-          }
-          if (postgrado.level == "POSTDOCTORADO") {
-            posdoc = posdoc + 1;
-          }
-        });
+    postgradoslistAux.forEach((docente) {
+      docente.postgrado.forEach((postgrado) {
+        if (postgrado.level == "ESPECIALIZACION") {
+          espe = espe + 1;
+        }
+        if (postgrado.level == "MAESTRIA") {
+          maes = maes + 1;
+        }
+        if (postgrado.level == "DOCTORADO") {
+          doc = doc + 1;
+        }
+        if (postgrado.level == "POSTDOCTORADO") {
+          posdoc = posdoc + 1;
+        }
       });
-  postgra = [espe, maes,doc,posdoc];
+    });
+    postgra = [espe, maes, doc, posdoc];
     return postgra;
   }
-  Future<List<double>> tipos() async{
+
+  Future<List<double>> tipos() async {
     List<double> tipos = [];
     await Future.delayed(const Duration(seconds: 2));
 
@@ -230,37 +438,46 @@ List<Docente> postgradoslistAux=[];
     double titiempocompleto = 0;
     double titmediotiempo = 0;
 
-      postgradoslistAux.forEach((docente) {
-          if (docente.type == "Auxiliar Tiempo Completo") {
-            auxTiempoCompleto = auxTiempoCompleto + 1;
-          }
-          if (docente.type == "Auxiliar Medio Tiempo'") {
-            auxMedioTiempo = auxMedioTiempo + 1;
-          }
-          if (docente.type == "Asistente Tiempo Completo") {
-            asisTiempoCompleto = asisTiempoCompleto + 1;
-          }
-          if (docente.type == "Asistente Medio Tiempo") {
-            asismediotiempo = asismediotiempo + 1;
-          }
-          if (docente.type == "Asociado Tiempo Completo") {
-            asotiempocompleto = asotiempocompleto + 1;
-          }
-          if (docente.type == "Asociado Medio Tiempo") {
-            asomediotiempo = asomediotiempo + 1;
-          }
-          if (docente.type == "Titular Tiempo Completo") {
-            titiempocompleto = titiempocompleto + 1;
-          }
-          if (docente.type == "Titular Medio Tiempo") {
-            titmediotiempo = titmediotiempo + 1;
-          }
-      });
-  tipos = [auxTiempoCompleto, auxMedioTiempo,asisTiempoCompleto,asismediotiempo,asotiempocompleto,asomediotiempo,titiempocompleto,titmediotiempo];
+    postgradoslistAux.forEach((docente) {
+      if (docente.type == "Auxiliar Tiempo Completo") {
+        auxTiempoCompleto = auxTiempoCompleto + 1;
+      }
+      if (docente.type == "Auxiliar Medio Tiempo'") {
+        auxMedioTiempo = auxMedioTiempo + 1;
+      }
+      if (docente.type == "Asistente Tiempo Completo") {
+        asisTiempoCompleto = asisTiempoCompleto + 1;
+      }
+      if (docente.type == "Asistente Medio Tiempo") {
+        asismediotiempo = asismediotiempo + 1;
+      }
+      if (docente.type == "Asociado Tiempo Completo") {
+        asotiempocompleto = asotiempocompleto + 1;
+      }
+      if (docente.type == "Asociado Medio Tiempo") {
+        asomediotiempo = asomediotiempo + 1;
+      }
+      if (docente.type == "Titular Tiempo Completo") {
+        titiempocompleto = titiempocompleto + 1;
+      }
+      if (docente.type == "Titular Medio Tiempo") {
+        titmediotiempo = titmediotiempo + 1;
+      }
+    });
+    tipos = [
+      auxTiempoCompleto,
+      auxMedioTiempo,
+      asisTiempoCompleto,
+      asismediotiempo,
+      asotiempocompleto,
+      asomediotiempo,
+      titiempocompleto,
+      titmediotiempo
+    ];
     return tipos;
   }
 
-  Future<List<double>> semilleros() async{
+  Future<List<double>> semilleros() async {
     List<double> semille = [];
     double a1 = 0;
     double a = 0;
@@ -268,28 +485,28 @@ List<Docente> postgradoslistAux=[];
     double c = 0;
     double rec = 0;
     double s = 0;
-          postgradoslistAux.forEach((docente) {
-        docente.postgrado.forEach((e) {
-          if (e.level == "A1") {
-            a1 = a1 + 1;
-          }
-          if (e.level == "A") {
-            a = a + 1;
-          }
-          if (e.level == "B") {
-            b = b + 1;
-          }
-          if (e.level == "C") {
-            c = c + 1;
-          }
-          if (e.level == "RECONOCIDO POR COLCIENCIAS") {
-            rec = rec + 1;
-          }
-          if (e.level == "SEMILLERO") {
-            s = s + 1;
-          }
-        });
+    postgradoslistAux.forEach((docente) {
+      docente.postgrado.forEach((e) {
+        if (e.level == "A1") {
+          a1 = a1 + 1;
+        }
+        if (e.level == "A") {
+          a = a + 1;
+        }
+        if (e.level == "B") {
+          b = b + 1;
+        }
+        if (e.level == "C") {
+          c = c + 1;
+        }
+        if (e.level == "RECONOCIDO POR COLCIENCIAS") {
+          rec = rec + 1;
+        }
+        if (e.level == "SEMILLERO") {
+          s = s + 1;
+        }
       });
+    });
     semille = [a1, a, b, c, rec, s];
     return semille;
   }
@@ -297,52 +514,10 @@ List<Docente> postgradoslistAux=[];
   double totalList(List<double> list) {
     double max = 0;
     list.forEach((element) {
-      
-      if(element > max){
-        max = element+1;
+      if (element > max) {
+        max = element + 1;
       }
     });
     return max;
   }
-
-  // guardarDocente(Docente docente) {
-  //   _storage[docente.id] = json.encode(docente.toJSONEncodable());
-  //   print(_storage);
-  // }
-
-  // por corregir get
-
-  // Future<List<Docente>> mostrarDocentes() async {
-  //   List<Docente> docentes = [];
-  //   // _storage..remove("GetStorage");
-  //   var datas = _storage.values.first;
-  //   print(datas);
-  //   var complementosString = datas.substring((datas.indexOf('[')+1), datas.indexOf(']')).replaceAll('{', '').replaceAll('"', '');
-  //   List<String> compleList = complementosString.split('}');
-  //   compleList.removeLast();
-
-  //   var first = datas.replaceAll('{', '');
-  //   first = first.replaceAll('}', '').substring(0,(first.indexOf("postgrado")-2)).replaceAll('"', '');
-  //   List<String> values = first.split(',');
-
-  //   for (var i = 0; i < values.length; i++) {
-  //     List<Complemento> completosAux = [];
-  //     for (var j = 0; j < compleList.length; j++) {
-  //       completosAux.add(Complemento(nombre: compleList[j].split(':')[1].toString(), level: compleList[j].split(':')[3].toString()));
-  //     }
-  //           Docente(name: values[0].split(':')[1].toString(), id: values[1].split(':')[1].toString(), type: values[2].split(':')[1].toString(), postgrado: completosAux);
-  //   }
-
-  //   // for (var item in datas) {
-  //     // print(item);
-  //     // var data = json.decode(item);
-  //     // List<Complemento> complementosAux = [];
-  //     // for (var val in data["postgrado"]) {
-  //       // complementosAux.add(Complemento(nombre: val["nombre"], level: val["level"]));
-  //     // }
-
-  //   // }
-  //   print(docentes);
-  //   return docentes;
-  // }
 }

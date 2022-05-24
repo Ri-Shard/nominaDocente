@@ -204,6 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   level: level,
                                                   date: date.text,
                                                 ));
+                                                
                                                 Get.back();
                                               },
                                               color: Colors.green,
@@ -394,7 +395,113 @@ class _RegisterPageState extends State<RegisterPage> {
                             salary: mainController.calcularSNomina(
                                 postGrados, tipoDocente));
                         mainController.guardarDocente(docente);
-                        Get.back();
+                                              showDialog(
+                          context: context,
+                          builder: (_) {
+                            return Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(20),
+                              child: Card(
+                                  child: Container(
+                                      width: Get.width * 0.5,
+                                      height: Get.height *0.6,
+                                      padding: const EdgeInsets.all(20),
+                                      child: ListView(children: <Widget>[
+                                        Center(
+                                            child: Column(
+                                              children: const[
+                                                Text(
+                                          'Salario Calculado Con base en: ',
+                                          style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                        Text("S.M.M.L.V = 1'000.000",
+                                          style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                                  SizedBox(height: 30,)                                               
+                                              ],
+                                            )),
+                                        DataTable(
+                                          columns: const [
+                                            DataColumn(
+                                                label: Text('Variables',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Valores',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Multiplicador',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            DataColumn(
+                                                label: Text('Total',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                          ],
+                                          rows:  [
+                                            DataRow(cells: [
+                                              const DataCell(Text('Tipo Docente',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(docente.type)),
+                                              DataCell(Text(mainController.valuemultiplicator(docente.type)+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(mainController.calculoparcialtype(docente.type)))),
+                                            ]),
+                                            DataRow(cells: [
+                                              const DataCell(Text('PostGrado mas Reciente',
+                                                    style:  TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(mainController.moreRecent(docente.postgrado))),
+                                              DataCell(Text(mainController.valuemultiplicator(mainController.moreRecent(docente.postgrado))+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(mainController.calculoparcialPost(mainController.moreRecent(docente.postgrado))))),
+                                            ]),
+                                            DataRow(cells: [
+                                              const DataCell( Text('Semillero Mas Nivel',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              DataCell(Text(mainController.moreLevel(docente.postgrado))),
+                                              DataCell(Text(mainController.valuemultiplicator(mainController.moreLevel(docente.postgrado))+ "* S.M.M.L.V")),
+                                              DataCell(Text(moneyFormat(mainController.calculoparcialPost(mainController.moreLevel(docente.postgrado))))),
+                                            ]),
+                                            DataRow(cells:  [
+                                              const DataCell(Text('TOTAL: ',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                              const DataCell( Text(" ")),
+                                              const DataCell(Text(" ")),
+                                              DataCell(Text(moneyFormat(mainController.calcularSNomina(docente.postgrado, docente.type)), style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            ]),
+                                          ],
+                                        ),
+                                        TextButton(onPressed: (){
+                                           Get.offAllNamed('/');
+                                        }, child:const Text("Regresar"))
+                                      ]))),
+                            );
+                          });
                       }
                     },
                     color: Colors.green,
@@ -466,4 +573,13 @@ Widget makeInput(
       ),
     ],
   );
+}
+String moneyFormat(String price) {
+  if (price.length > 2) {
+    var value = price;
+    value = value.replaceAll(RegExp(r'\D'), '');
+    value = value.replaceAll(RegExp(r'\B(?=(\d{3})+(?!\d))'), ',');
+    return value;
+  }
+  return "";
 }
