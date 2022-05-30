@@ -1,11 +1,13 @@
 file:///C:/Users/rikar/Downloads/nominaDocente/.dart_tool/flutter_build/e7c133e7a17692ec9770bfe46f3e4606/main.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/.dart_tool/package_config.json
+file:///C:/Users/rikar/Downloads/nominaDocente/lib/controller/all_docentes_controller.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/controller/main_controller.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/generated_plugin_registrant.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/layouts/main_layout_page.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/main.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/models/complemento.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/models/docente.dart
+file:///C:/Users/rikar/Downloads/nominaDocente/lib/pages/calculate_all_page.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/pages/charts/bar_Chart_PostGrado.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/pages/charts/bar_Chart_Semillero.dart
 file:///C:/Users/rikar/Downloads/nominaDocente/lib/pages/charts/bar_chart_Tipo.dart

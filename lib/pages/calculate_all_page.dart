@@ -78,7 +78,7 @@ class _CalculateAllPageState extends State<CalculateAllPage> {
                           } else if (int.parse(value) < 0) {
                             return 'Cantidad Erronea';
                           } 
-                          // else if (controller.validateQuantity(value)) {
+                          // else if (controller.validateQuantity()) {
                           //   return 'Sobrepasa la cantidad de docentes';
                           // }
                           return null;
@@ -257,10 +257,11 @@ class _CalculateAllPageState extends State<CalculateAllPage> {
                             return 'Campo Requerido';
                           } else if (int.parse(value) < 1) {
                             return 'Cantidad Erronea';
-                          } else if (int.parse(value) >
-                              int.parse(controller.nDocentes.text)) {
-                            return 'Sobrepasa la cantidad de docentes';
-                          }
+                          } 
+                          // else if (int.parse(value) >
+                          //     int.parse(controller.nDocentes.text)) {
+                          //   return 'Sobrepasa la cantidad de docentes';
+                          // }
                           return null;
                         },                        
                         keyboardType: TextInputType.number,
@@ -387,13 +388,56 @@ class _CalculateAllPageState extends State<CalculateAllPage> {
   }
 
   continued() {
+
+    _currentStep == 2 ? validacion(): null;
+    _currentStep == 3 ? validacion(): null;
     _currentStep < 3 ? setState(() => _currentStep += 1) : calculate();
+    
   }
 
   cancel() {
     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 
+bool validacion(){
+  if (_currentStep == 2) {
+    if (controller.validateQuantity()) {
+      showDialog(context: context, builder: (_){
+        return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(20),
+            child: Card(
+                child: Container( 
+                    width: Get.width * 0.3,
+                    padding: const EdgeInsets.all(20),
+                    child:  const Text("La sumatoria de tipos de docente no corresponde con la cantidad total de Docentes, revise"),
+                )));
+         
+      });
+      return true;
+    }
+    return false;
+  }else if  (_currentStep == 3){
+    if (controller.validateQuantity()) {
+      showDialog(context: context, builder: (_){
+        return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(20),
+            child: Card(
+                child: Container(
+                    width: Get.width * 0.3,
+                    padding: const EdgeInsets.all(20),
+                    child:  const Text("La sumatoria de Docentes con PostGrados  no corresponde con la cantidad total de Docentes, revise"),
+                )));
+         
+      });
+            return true;
+    }
+    return false;
+  }
+    return false;
+
+}
   calculate() {
     showDialog(
         context: context,

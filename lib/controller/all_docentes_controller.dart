@@ -26,6 +26,7 @@ class AllDocentesController extends GetxController {
   TextEditingController nSemillero = TextEditingController();
 
   String calculoparcialtype() {
+    validarVacio();
     double parcialtype = 0;
     double smmlv = 1000000.0;
     double auxauxtc = 0;
@@ -58,6 +59,7 @@ class AllDocentesController extends GetxController {
   }
 
   String calculoparcialPost() {
+        validarVacio();
     double smmlv = 1000000.0;
     double parcialpost = 0;
 
@@ -76,6 +78,8 @@ class AllDocentesController extends GetxController {
   }
 
   String calculoparcialSemill() {
+        validarVacio();
+
     double smmlv = 1000000.0;
     double parcialsemill = 0;
 
@@ -107,57 +111,18 @@ class AllDocentesController extends GetxController {
     return total.toString();
   }
 
-  bool validateQuantity(String? value) {
+  bool validateQuantity() {
+        validarVacio();
     bool flag = false;
-    double auxauxtc = 0;
-    double auxauxmt = 0;
-    double auxasistc = 0;
-    double auxasismt = 0;
-    double auxasotc = 0;
-    double auxasomt = 0;
-    double auxtitutc = 0;
-    double auxtitumt = 0;
+    int auxauxtc = int.parse(nAuxTc.text);
+    int auxauxmt = int.parse(nAuxMt.text);
+    int auxasistc = int.parse(nAsisTc.text);
+    int auxasismt = int.parse(nAsisMt.text);
+    int auxasotc = int.parse(nAsoTc.text);
+    int auxasomt = int.parse(nAsoMt.text);
+    int auxtitutc = int.parse(nTituTc.text);
+    int auxtitumt = int.parse(nTituMt.text);
 
-    if (nAuxTc.text == " ") {
-      auxauxtc = 0;
-    } else {
-      auxauxtc = double.parse(nAuxTc.text);
-    }
-    if (nAuxMt.text == " ") {
-      auxauxmt = 0;
-    } else {
-      auxauxmt = double.parse(nAuxMt.text);
-    }
-    if (nAsisTc.text == " ") {
-      auxasistc = 0;
-    } else {
-      auxasistc = double.parse(nAsisTc.text);
-    }
-    if (nAsisMt.text == " ") {
-      auxasismt = 0;
-    } else {
-      auxasismt = double.parse(nAsisMt.text);
-    }
-    if (nAsoTc.text == " ") {
-      auxasotc = 0;
-    } else {
-      auxasotc = double.parse(nAsoTc.text);
-    }
-    if (nAsoMt.text == " ") {
-      auxasomt = 0;
-    } else {
-      auxasomt = double.parse(nAsoMt.text);
-    }
-    if (nTituTc.text == " ") {
-      auxtitutc = 0;
-    } else {
-      auxtitutc = double.parse(nTituTc.text);
-    }
-    if (nTituMt.text == " ") {
-      auxtitumt = 0;
-    } else {
-      auxtitumt = double.parse(nTituMt.text);
-    }
 
     if (auxauxtc +
             auxauxmt +
@@ -172,7 +137,49 @@ class AllDocentesController extends GetxController {
     } else {
       flag = false;
     }
-
     return flag;
   }
+
+validarVacio (){
+      if (nAuxTc.text == "") {
+      nAuxTc.text = "0";
+    } else {
+      nAuxTc.text = nAuxTc.text;
+    }
+    if (nAuxMt.text == " ") {
+      nAuxMt.text = "0";
+    } else {
+      nAuxMt.text = nAuxMt.text;
+    }
+    if (nAsisTc.text == " ") {
+      nAsisTc.text = "0";
+    } else {
+      nAsisTc.text = nAsisTc.text;
+    }
+    if (nAsisMt.text == " ") {
+      nAsisMt.text = "0";
+    } else {
+      nAsisMt.text = nAsisMt.text;
+    }
+    if (nAsoTc.text == " ") {
+      nAsoTc.text = "0";
+    } else {
+      nAsoTc.text = nAsoTc.text;
+    }
+    if (nAsoMt.text == " ") {
+      nAsoMt.text = "0";
+    } else {
+      nAsoMt.text = nAsoMt.text;
+    }
+    if (nTituTc.text == " ") {
+      nTituTc.text = "0";
+    } else {
+      nTituTc.text = nTituTc.text;
+    }
+    if (nTituMt.text == " ") {
+      nTituMt.text  = "0";
+    } else {
+      nTituMt.text  = nTituMt.text ;
+    }
+}
 }
