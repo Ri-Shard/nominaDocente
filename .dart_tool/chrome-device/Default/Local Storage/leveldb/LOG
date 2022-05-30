@@ -1,6 +1,4 @@
-2022/05/23-23:53:16.077 3290 Reusing MANIFEST C:\Users\rikar\AppData\Local\Temp\flutter_tools.72343a0f\flutter_tools_chrome_device.a85ccefc\Default\Local Storage\leveldb/MANIFEST-000001
-2022/05/23-23:53:16.079 3290 Recovering log #3
-2022/05/23-23:53:16.080 3290 Reusing old log C:\Users\rikar\AppData\Local\Temp\flutter_tools.72343a0f\flutter_tools_chrome_device.a85ccefc\Default\Local Storage\leveldb/000003.log 
-2022/05/24-00:29:38.801 3290 Level-0 table #5: started
-2022/05/24-00:29:38.807 3290 Level-0 table #5: 43108 bytes OK
-2022/05/24-00:29:38.810 3290 Delete type=0 #3
+2022/05/30-10:26:15.212 2654 Reusing MANIFEST C:\Users\rikar\AppData\Local\Temp\flutter_tools.51a52d6c\flutter_tools_chrome_device.ac16b3ec\Default\Local Storage\leveldb/MANIFEST-000001
+2022/05/30-10:26:15.222 2654 Recovering log #4
+2022/05/30-10:26:15.240 2654 Reusing old log C:\Users\rikar\AppData\Local\Temp\flutter_tools.51a52d6c\flutter_tools_chrome_device.ac16b3ec\Default\Local Storage\leveldb/000004.log 
+2022/05/30-10:26:15.244 2654 Delete type=0 #3
