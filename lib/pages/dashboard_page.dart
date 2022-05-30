@@ -57,7 +57,7 @@ class _ChartPageState extends State<ChartPage> {
           height: height,
           autoPlay: true,
           enableInfiniteScroll: true,
-          autoPlayAnimationDuration: const Duration(seconds: 5),
+          autoPlayAnimationDuration: const Duration(seconds: 7),
         ),
       ),
     );
