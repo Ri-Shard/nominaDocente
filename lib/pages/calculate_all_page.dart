@@ -389,8 +389,8 @@ class _CalculateAllPageState extends State<CalculateAllPage> {
 
   continued() {
 
-    _currentStep == 2 ? validacion(): null;
-    _currentStep == 3 ? validacion(): null;
+    _currentStep  ==1 ? validacion(): null;
+    _currentStep  ==2 ? validacion(): null;
     _currentStep < 3 ? setState(() => _currentStep += 1) : calculate();
     
   }
@@ -400,7 +400,7 @@ class _CalculateAllPageState extends State<CalculateAllPage> {
   }
 
 bool validacion(){
-  if (_currentStep == 2) {
+  if (_currentStep == 1) {
     if (controller.validateQuantity()) {
       showDialog(context: context, builder: (_){
         return Container(
@@ -417,8 +417,8 @@ bool validacion(){
       return true;
     }
     return false;
-  }else if  (_currentStep == 3){
-    if (controller.validateQuantity()) {
+  }else if  (_currentStep == 2){
+    if (controller.validateQuantityPost()) {
       showDialog(context: context, builder: (_){
         return Container(
             alignment: Alignment.center,

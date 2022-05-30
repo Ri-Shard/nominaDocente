@@ -139,6 +139,26 @@ class AllDocentesController extends GetxController {
     }
     return flag;
   }
+  bool validateQuantityPost() {
+        validarVacio();
+    bool flag = false;
+    int auxespecia = int.parse(nEspecializacion.text);
+    int auxmaestria= int.parse(nMaestria.text);
+    int auxdocto= int.parse(nDoctorado.text);
+    int auxpostdocto = int.parse(nPostdoctorado.text);
+
+    if (
+            auxespecia +
+            auxmaestria +
+            auxdocto +
+            auxpostdocto >
+        double.parse(nDocentes.text)) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+    return flag;
+  }
 
 validarVacio (){
       if (nAuxTc.text == "") {
